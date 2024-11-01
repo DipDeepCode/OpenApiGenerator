@@ -1,0 +1,320 @@
+openapi: 3.0.0
+info:
+  title: Demo Open API Generator
+  description: This is the Demo Open API Generator
+  version: "0.1"
+servers:
+  - url: http://localhost:8080
+
+components:
+  schemas:
+    AuthorDto:
+      title: Author DTO
+      description: Data transfer object for Author
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for Author
+          example: 123
+        name:
+          type: string
+          description: Name of Author
+          example: Bob
+        surname:
+          type: string
+          description: Surname of Author
+          example: Dilan
+      required:
+        - name
+        - surname
+    BookDto:
+      title: Book DTO
+      description: Data transfer object for Book
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Uniques identifier for Book
+          example: 123
+        title:
+          type: string
+          description: Title of the book
+          example: Do Androids Dream of Electric Sheep?
+    ErrorDto:
+      title: Error response
+      description: Data transfer object for Error response
+      type: object
+      properties:
+        message:
+          type: string
+
+paths:
+# Author
+  /authors:
+    post:
+      tags:
+        - Author
+      summary: Create new Author
+      description: Create new Author
+      operationId: createAuthor
+      requestBody:
+        description: Author data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorDto"
+      responses:
+        201:
+          description: Author created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+    get:
+      tags:
+        - Author
+      summary: Get all Authors
+      description: Get all Authors
+      operationId: getAllAuthors
+      responses:
+        200:
+          description: Authors found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AuthorDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+  /authors/{id}:
+    parameters:
+      - name: id
+        description: Unique identifier of Author
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - Author
+      summary: Get Author by id
+      description: Get author by id
+      operationId: getAuthorById
+      responses:
+        200:
+          description: Author found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+    put:
+      tags:
+        - Author
+      summary: Update Author
+      description: Update author
+      operationId: updateAuthor
+      requestBody:
+        description: Author's data for updating
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorDto"
+      responses:
+        200:
+          description: Author updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+    delete:
+      tags:
+        - Author
+      summary: Delete Author
+      description: Delete Author
+      operationId: deleteAuthor
+      responses:
+        204:
+          description: Author deleted
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+# Book
+  /authors/{authorId}/books:
+    parameters:
+      - name: authorId
+        description: Unique identifier for Author
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    post:
+      tags:
+        - Book
+      summary: Create Book
+      description: Create Book
+      operationId: createBook
+      requestBody:
+        description: Book data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDto"
+      responses:
+        200:
+          description: Book created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+    get:
+      tags:
+        - Book
+      summary: Get author books
+      description: Get author books
+      operationId: getAuthorBooks
+      responses:
+        200:
+          description: Books found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BookDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+  /books:
+    get:
+      tags:
+        - Book
+      summary: Get all Books
+      description: Get all Books
+      operationId: getAllBooks
+      responses:
+        200:
+          description: Books found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BookDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+  /books/{id}:
+    parameters:
+      - name: id
+        description: Unique identifier of Book
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - Book
+      summary: Get Book by id
+      description: Get Book by id
+      operationId: getBookById
+      responses:
+        200:
+          description: Book found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+    put:
+      tags:
+        - Book
+      summary: Update Book
+      description: Update Book
+      operationId: updateBook
+      requestBody:
+        required: true
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookDto"
+      responses:
+        200:
+          description: Book updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookDto"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
+    delete:
+      tags:
+        - Book
+      summary: Delete Book
+      description: Delete Book
+      operationId: deleteBook
+      responses:
+        204:
+          description: Book deleted
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDto"
